@@ -13,6 +13,9 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(cookieParser())
 
+//connect to mongodb
+import './config/database'
+
 const PORT = process.env.PORT || 5500
 app.listen(PORT, () => {
   console.log(`server listening on port ${PORT}`)
