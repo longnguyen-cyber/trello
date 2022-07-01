@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { IReqAuth } from '../config/interface'
 import User from '../models/User'
 
 const CLIENT_BASE_URL = `${process.env.BASE_URL}`

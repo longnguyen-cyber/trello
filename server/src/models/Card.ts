@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
+import { ICard } from '../config/interface'
 
 const cardSchema = new mongoose.Schema(
   {
-    boardId: mongoose.Types.ObjectId,
-    columnId: mongoose.Types.ObjectId,
+    board: mongoose.Types.ObjectId,
+    column: mongoose.Types.ObjectId,
     content: {
       type: String,
       require: [true, 'Please add your content card'],
@@ -20,4 +21,4 @@ const cardSchema = new mongoose.Schema(
     timestamps: true
   }
 )
-export default mongoose.model('card', cardSchema)
+export default mongoose.model<ICard>('card', cardSchema)

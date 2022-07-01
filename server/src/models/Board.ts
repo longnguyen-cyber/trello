@@ -1,7 +1,12 @@
 import mongoose from 'mongoose'
+import { IBoard } from '../config/interface'
 
 const boardSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'user'
+    },
     title: {
       type: String,
       require: [true, 'Please add your title board'],
@@ -19,4 +24,4 @@ const boardSchema = new mongoose.Schema(
     timestamps: true
   }
 )
-export default mongoose.model('board', boardSchema)
+export default mongoose.model<IBoard>('board', boardSchema)

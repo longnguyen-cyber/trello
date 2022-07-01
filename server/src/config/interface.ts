@@ -11,6 +11,25 @@ export interface IUser extends Document {
   _doc: Object
 }
 
+export interface ICard extends Document {
+  board: string
+  column: string
+  content: string
+  thumbnail: string
+}
+
+export interface IColumn extends Document {
+  board: string
+  title: string
+  cardOrder: ICard[]
+}
+
+export interface IBoard extends Document {
+  user: string
+  title: string
+  columnOrder: IColumn[]
+}
+
 export interface INewUser {
   name: string
   account: string
