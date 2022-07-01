@@ -1,4 +1,5 @@
-import authRouter from './authRouter'
-const routes = [authRouter]
+import authRoutes from './authRoutes'
+import userRoutes from './userRoutes'
+const routes = [authRoutes, userRoutes]
 
 export default routes

@@ -4,7 +4,7 @@ import {
   generateAccessToken,
   generateActiveToken,
   generateRefreshToken
-} from './../middlewares/generateToken'
+} from './../config/generateToken'
 import bcrypt from 'bcrypt'
 import { Request, Response } from 'express'
 import User from '../models/User'
