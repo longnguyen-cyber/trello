@@ -1,8 +1,12 @@
 import mongoose from 'mongoose'
+import { IColumn } from '../config/interface'
 
 const columnSchema = new mongoose.Schema(
   {
-    boardId: mongoose.Types.ObjectId,
+    board: {
+      type: mongoose.Types.ObjectId,
+      ref: 'board'
+    },
     title: {
       type: String,
       require: [true, 'Please add your title column'],
@@ -20,4 +24,4 @@ const columnSchema = new mongoose.Schema(
     timestamps: true
   }
 )
-export default mongoose.model('column', columnSchema)
+export default mongoose.model<IColumn>('column', columnSchema)

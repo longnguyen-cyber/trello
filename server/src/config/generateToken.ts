@@ -2,13 +2,13 @@ import jwt from 'jsonwebtoken'
 
 export const generateActiveToken = (payload: object) => {
   return jwt.sign(payload, `${process.env.ACTIVE_TOKEN_SECRET}`, {
-    expiresIn: '5m'
+    expiresIn: '10d'
   })
 }
 
 export const generateAccessToken = (payload: object) => {
   return jwt.sign(payload, `${process.env.ACCESS_TOKEN_SECRET}`, {
-    expiresIn: '15m'
+    expiresIn: '10d'
   })
 }
 
