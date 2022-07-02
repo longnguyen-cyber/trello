@@ -15,7 +15,7 @@ export interface ICard extends Document {
   board: string
   column: string
   content: string
-  thumbnail: string
+  thumbnail?: string
 }
 
 export interface IColumn extends Document {
