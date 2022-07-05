@@ -1,15 +1,12 @@
-import Navbar from './Navbar'
-import { AiOutlineHome } from 'react-icons/ai'
-import { FaFlipboard } from 'react-icons/fa'
-import { CgTemplate } from 'react-icons/cg'
-import { FiSettings } from 'react-icons/fi'
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom'
 import { useState } from 'react'
+import { AiOutlineHome } from 'react-icons/ai'
+import { CgTemplate } from 'react-icons/cg'
+import { FaFlipboard } from 'react-icons/fa'
+import { FiSettings } from 'react-icons/fi'
+import { Link, Outlet } from 'react-router-dom'
+import Navbar from './Navbar'
 
 const Home = () => {
-  const { id } = useParams()
-  const { pathname } = useLocation()
-
   const [user, setUser] = useState(true)
   const NotUser = () => {
     return (

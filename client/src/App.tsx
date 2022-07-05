@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Outlet,
-  Route,
-  Routes
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Board from './components/Board'
 import Boards from './components/Boards'
 import Home from './components/Home'
@@ -18,12 +13,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}>
           <Route index element={<HomePage />} />
-          <Route path="board" element={<Boards />}>
-            <Route path=":id" element={<Board />} />
-          </Route>
+          <Route path="board" element={<Boards />} />
           <Route path="templates" element={<Templates />} />
           <Route path="settings" element={<Settings />} />
         </Route>
+        <Route path="/board/:id" element={<Board />} />
         <Route path="login" element={<Login />} />
         <Route path="sign-up" element={<SignUp />} />
       </Routes>

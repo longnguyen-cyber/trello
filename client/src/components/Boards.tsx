@@ -1,4 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom'
+import Board from './Board'
 
 const Boards = () => {
   let navigate = useNavigate()
@@ -44,6 +45,9 @@ const Boards = () => {
               style={{ transform: 'translate(-50%,-50%)' }}
             >
               <h3>{item.title}</h3>
+            </div>
+            <div className="hidden">
+              <Board />
             </div>
           </div>
         ))}
