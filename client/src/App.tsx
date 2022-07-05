@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Alert } from './components/altert/Alert'
 import Board from './components/Board'
 import Boards from './components/Boards'
 import Home from './components/Home'
@@ -10,6 +11,7 @@ import Templates from './components/Templates'
 function App() {
   return (
     <Router>
+      <Alert />
       <Routes>
         <Route path="/" element={<Home />}>
           <Route index element={<HomePage />} />

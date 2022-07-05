@@ -1,8 +1,28 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
+import { useState } from 'react'
 import { BsFacebook } from 'react-icons/bs'
 import { FcGoogle } from 'react-icons/fc'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { login } from '../redux/actions/authAction'
+import { FormSubmit, InputChange, TypedDispatch } from '../utils/types'
 const Login = () => {
+  const initalState = { account: '', password: '' }
+  const [userLogin, setUserLogin] = useState(initalState)
+  const [typePass, setTypePass] = useState(false)
+  const { account, password } = userLogin
+
+  const dispatch = useDispatch<TypedDispatch>()
+
+  const handleChangeInput = (e: InputChange) => {
+    const { value, name } = e.target
+    setUserLogin({ ...userLogin, [name]: value })
+  }
+
+  const handleSubmit = (e: FormSubmit) => {
+    e.preventDefault()
+    dispatch(login(userLogin))
+  }
+
   return (
     <section className="h-screen">
       <div className="px-6 h-full text-gray-800">
@@ -11,11 +31,11 @@ const Login = () => {
             <img
               src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
               className="w-full"
-              alt="Sample image"
+              alt=""
             />
           </div>
           <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="flex flex-row items-center justify-center lg:justify-start">
                 <p className="text-lg mb-0 mr-4">Sign in with</p>
                 <button>
@@ -34,8 +54,11 @@ const Login = () => {
                 <input
                   type="text"
                   className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="exampleFormControlInput2"
                   placeholder="Email address"
+                  name="account"
+                  value={account}
+                  onChange={handleChangeInput}
+                  autoComplete="username"
                 />
               </div>
 
@@ -43,8 +66,11 @@ const Login = () => {
                 <input
                   type="password"
                   className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="exampleFormControlInput2"
                   placeholder="Password"
+                  name="password"
+                  value={password}
+                  onChange={handleChangeInput}
+                  autoComplete="current-password"
                 />
               </div>
 
@@ -69,7 +95,7 @@ const Login = () => {
 
               <div className="text-center lg:text-left">
                 <button
-                  type="button"
+                  type="submit"
                   className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                 >
                   Login

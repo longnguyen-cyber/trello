@@ -131,7 +131,6 @@ const loginUser = async (user: IUser, password: string, res: Response) => {
     path: `/api/refresh_token`,
     maxAge: 30 * 24 * 60 * 60 * 1000 // 30days
   })
-
   res.json({
     msg: 'Login success',
     access_token,

@@ -7,7 +7,7 @@ import { Link, Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
 
 const Home = () => {
-  const [user, setUser] = useState(true)
+  const [user, setUser] = useState(false)
   const NotUser = () => {
     return (
       <div className="grid grid-cols-3 py-48 px-28">
