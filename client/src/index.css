@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .board {
+    @apply before:content-[""] before:bg-slate-600 before:absolute before:w-full before:h-40 before:opacity-50;
+  }
+}
