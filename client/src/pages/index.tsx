@@ -1,4 +1,4 @@
-import Navbar from './Navbar'
+import Navbar from '../components/Navbar'
 import { AiOutlineHome } from 'react-icons/ai'
 import { FaFlipboard } from 'react-icons/fa'
 import { CgTemplate } from 'react-icons/cg'

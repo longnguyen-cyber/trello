@@ -1,9 +1,16 @@
-import React, { useState } from 'react'
-import { CgListTree } from 'react-icons/cg'
 import { BiLogIn } from 'react-icons/bi'
+import { CgListTree } from 'react-icons/cg'
+import { useNavigate } from 'react-router-dom'
 
-const Navbar = () => {
-  const [user, setUser] = useState(true)
+interface IProps {
+  // user: IUser
+  user: boolean
+  setUser: (user: boolean) => void
+}
+
+const Navbar = ({ user, setUser }: IProps) => {
+  const navigate = useNavigate()
+
   return (
     <>
       <div className="flex justify-between p-4 shadow-lg">
@@ -14,15 +21,21 @@ const Navbar = () => {
         {user ? (
           <div className="mr-4">
             <button className="text-3xl font-semibold">
-              <BiLogIn />
+              <BiLogIn onClick={() => setUser(!user)} />
             </button>
           </div>
         ) : (
           <div className="mr-4">
-            <button className="px-4 py-2 text-blue-400 font-semibold">
+            <button
+              className="px-4 py-2 text-blue-400 font-semibold"
+              onClick={() => navigate('/login')}
+            >
               Log in
             </button>
-            <button className="px-4 py-2 text-white font-semibold bg-green-600 rounded-md">
+            <button
+              className="px-4 py-2 text-white font-semibold bg-green-600 rounded-md"
+              onClick={() => navigate('/sign-up')}
+            >
               Sign up
             </button>
           </div>
