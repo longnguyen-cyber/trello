@@ -1,5 +1,6 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import Board from './Board'
+import Modal from './Modal'
 
 const Boards = () => {
   let navigate = useNavigate()
@@ -24,8 +25,11 @@ const Boards = () => {
     }
   ]
   return (
-    <div className="mt-12 ml-12">
-      <h2 className="text-2xl font-semibold mb-4">ALl Board</h2>
+    <div className="mt-12 mx-12 flex-1">
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-semibold mb-4">ALl Board</h2>
+        <Modal />
+      </div>
       <div className="grid grid-cols-4 space-x-4">
         {data.map((item) => (
           <div

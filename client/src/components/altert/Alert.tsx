@@ -19,9 +19,9 @@ export const Alert = () => {
 }
 
 export const showErrMsg = (err: string) => {
-  return <div className="errMsg">{err}</div>
+  return <div className="active bg-red-500">{err}</div>
 }
 
 export const showSuccessMsg = (success: string) => {
-  return <div className="successMsg">{success}</div>
+  return <div className="active bg-green-500">{success}</div>
 }

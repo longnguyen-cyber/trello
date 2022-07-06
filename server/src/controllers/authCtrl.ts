@@ -106,13 +106,12 @@ const authCtrl = {
       if (!decoded.id) return res.status(400).json({ msg: 'Please login' })
 
       const user = await User.findById(decoded.id).select('-password')
-
       if (!user)
         return res.status(400).json({ msg: 'This account does not exists.' })
 
       const access_token = generateAccessToken({ id: user._id })
 
-      res.json({ access_token })
+      res.json({ access_token, user })
     } catch (error: any) {
       return res.status(500).json({ msg: error.message })
     }
@@ -121,7 +120,7 @@ const authCtrl = {
 
 const loginUser = async (user: IUser, password: string, res: Response) => {
   const isMatch = await bcrypt.compare(password, user.password)
-  if (!isMatch) return res.status(400).json({ msg: 'Passwor is incorrect.' })
+  if (!isMatch) return res.status(400).json({ msg: 'Password is incorrect.' })
 
   const access_token = generateAccessToken({ id: user._id })
   const refresh_token = generateRefreshToken({ id: user._id })

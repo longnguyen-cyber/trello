@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import App from './App'
 import './index.css'
 import store from './redux/store'
+import 'react-toastify/dist/ReactToastify.css'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Provider store={store}>

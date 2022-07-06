@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BsFacebook } from 'react-icons/bs'
 import { FcGoogle } from 'react-icons/fc'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { login } from '../redux/actions/authAction'
-import { FormSubmit, InputChange, TypedDispatch } from '../utils/types'
+import {
+  FormSubmit,
+  InputChange,
+  RootStore,
+  TypedDispatch
+} from '../utils/types'
 const Login = () => {
   const initalState = { account: '', password: '' }
   const [userLogin, setUserLogin] = useState(initalState)
-  const [typePass, setTypePass] = useState(false)
   const { account, password } = userLogin
 
   const dispatch = useDispatch<TypedDispatch>()
@@ -22,6 +26,10 @@ const Login = () => {
     e.preventDefault()
     dispatch(login(userLogin))
   }
+  const { auth } = useSelector((state: RootStore) => state)
+  useEffect(() => {
+    if (auth.access_token) window.location.href = '/'
+  }, [auth.access_token])
 
   return (
     <section className="h-screen">

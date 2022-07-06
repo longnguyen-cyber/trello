@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch } from 'react-redux'
 import { ALERT } from '../../redux/types/alertType'
 interface IProps {
@@ -13,10 +12,10 @@ const Toast = ({ title, body, bgColor }: IProps) => {
   }
   setTimeout(() => {
     dispatch({ type: ALERT, payload: {} })
-  }, 5000)
+  }, 3000)
   return (
     <div
-      className={`toast show fixed text-whtie ${bgColor}`}
+      className={`fixed text-white px-4 ${bgColor}`}
       style={{
         top: '5px',
         right: '5px',
@@ -24,20 +23,11 @@ const Toast = ({ title, body, bgColor }: IProps) => {
         minWidth: '200px'
       }}
     >
-      <div className={`toast-header text-light ${bgColor}`}>
-        <img
-          src="https://source.unsplash.com/random/32x32"
-          className="rounded me-2"
-          alt="..."
-        />
+      <div className={`flex justify-between text-white ${bgColor}`}>
         <strong className="me-auto">{title}</strong>
-        <button
-          type="button"
-          className="btn-close"
-          data-bs-dismiss="toast"
-          aria-label="Close"
-          onClick={handleClose}
-        />
+        <button type="button" className="pr-4" onClick={handleClose}>
+          X
+        </button>
       </div>
       <div className="toast-body">
         {typeof body === 'string' ? (

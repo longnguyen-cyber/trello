@@ -11,10 +11,6 @@ const cardSchema = new mongoose.Schema(
       trim: true,
       minLength: 10,
       maxLength: 20
-    },
-    thumbnail: {
-      type: String,
-      require: true
     }
   },
   {
