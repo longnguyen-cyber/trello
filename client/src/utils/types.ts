@@ -29,10 +29,16 @@ export interface IUser extends IUserLogin {
   createdAt: string
 }
 export interface IBoard {
-  id?: string | number
-  thumbnail: File | string
-  title: string
+  _id?: string | number
   user?: string | IUser
+  title: string
+}
+
+export interface IBoardModal extends IBoard {
+  thumbnail?: string | File
+}
+export interface IBoardHome extends IBoard {
+  thumbnail?: string
 }
 
 export interface IAlert {

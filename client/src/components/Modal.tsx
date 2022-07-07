@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import { FcStackOfPhotos } from 'react-icons/fc'
-import { FormSubmit, InputChange } from '../utils/types'
+import { useDispatch, useSelector } from 'react-redux'
+import { createBoard } from '../redux/actions/boardAction'
+import {
+  FormSubmit,
+  InputChange,
+  RootStore,
+  TypedDispatch
+} from '../utils/types'
 import { Tooltip } from './Tooltip'
 
 export default function Modal() {
@@ -20,13 +27,16 @@ export default function Modal() {
     setTitle(e.target.value as string)
   }
 
+  const dispatch = useDispatch<TypedDispatch>()
+  const { auth } = useSelector((state: RootStore) => state)
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
+    if (!auth.access_token) return
     const board = {
       title,
-      file
+      thumbnail: file
     }
-    console.log(board)
+    dispatch(createBoard(board, auth.access_token))
   }
 
   return (

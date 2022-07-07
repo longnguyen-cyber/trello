@@ -1,29 +1,13 @@
+import { useSelector } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { RootStore } from '../utils/types'
 import Board from './Board'
 import Modal from './Modal'
 
 const Boards = () => {
   let navigate = useNavigate()
-  const data = [
-    {
-      id: 1,
-      user: 'data1',
-      title: 'title1',
-      thumbnail: 'https://source.unsplash.com/random'
-    },
-    {
-      id: 2,
-      user: 'data2',
-      title: 'title2',
-      thumbnail: 'https://source.unsplash.com/random'
-    },
-    {
-      id: 3,
-      user: 'data3',
-      title: 'title3',
-      thumbnail: 'https://source.unsplash.com/random'
-    }
-  ]
+  const { boards } = useSelector((state: RootStore) => state)
+
   return (
     <div className="mt-12 mx-12 flex-1">
       <div className="flex justify-between">
@@ -31,12 +15,12 @@ const Boards = () => {
         <Modal />
       </div>
       <div className="grid grid-cols-4 space-x-4">
-        {data.map((item) => (
+        {boards.map((item) => (
           <div
-            key={item.id}
+            key={item._id}
             className="relative board cursor-pointer"
             onClick={() => {
-              navigate(`${item.id}`)
+              navigate(`${item._id}`)
             }}
           >
             <img

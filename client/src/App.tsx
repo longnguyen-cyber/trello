@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Active from './components/Active'
 import { Alert } from './components/altert/Alert'
@@ -12,12 +12,18 @@ import Settings from './components/Settings'
 import SignUp from './components/SignUp'
 import Templates from './components/Templates'
 import { refreshToken } from './redux/actions/authAction'
-import { TypedDispatch } from './utils/types'
+import { getBoards } from './redux/actions/boardAction'
+import { RootStore, TypedDispatch } from './utils/types'
 function App() {
   const dispatch = useDispatch<TypedDispatch>()
   useEffect(() => {
     dispatch(refreshToken())
   }, [dispatch])
+  const { auth } = useSelector((state: RootStore) => state)
+  useEffect(() => {
+    if (!auth.access_token) return
+    dispatch(getBoards(auth.access_token))
+  }, [dispatch, auth.access_token])
   return (
     <Router>
       <Alert />

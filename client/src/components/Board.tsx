@@ -1,34 +1,23 @@
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { getAPI } from '../utils/FetchData'
+import { IBoardHome, RootStore } from '../utils/types'
 const Board = () => {
-  const data = [
-    {
-      id: 1,
-      user: 'data1',
-      title: 'title1',
-      thumbnail: 'https://source.unsplash.com/random'
-    },
-    {
-      id: 2,
-      user: 'data2',
-      title: 'title2',
-      thumbnail: 'https://source.unsplash.com/random'
-    },
-    {
-      id: 3,
-      user: 'data3',
-      title: 'title3',
-      thumbnail: 'https://source.unsplash.com/random'
-    }
-  ]
   const { id } = useParams()
+  const [board, setBoard] = useState<IBoardHome>()
+  const { auth } = useSelector((state: RootStore) => state)
+
+  useEffect(() => {
+    if (!auth.access_token || !id) return
+    getAPI(`board/${id}`)
+      .then((res) => setBoard(res.data))
+      .catch((err) => console.log(err))
+  }, [auth.access_token, id])
 
   return (
     <div>
-      {data
-        .filter((item) => item.id.toString() === id)
-        .map((board) => (
-          <div key={board.id}>{board.title}</div>
-        ))}
+      {board?.title} - {auth.user?.name}
     </div>
   )
 }
