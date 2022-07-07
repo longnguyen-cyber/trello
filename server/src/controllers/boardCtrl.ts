@@ -10,8 +10,8 @@ const boardCtrl = {
     if (!req.user)
       return res.status(400).json({ msg: 'Invalid Authentication' })
     try {
-      const { title, user } = req.body
-      const newBoard = new Board({ title, user: req.user._id })
+      const { user } = req.body
+      const newBoard = new Board({ ...req.body, user: req.user._id })
 
       if (!newBoard)
         return res.status(400).json({ msg: 'Board already exists' })

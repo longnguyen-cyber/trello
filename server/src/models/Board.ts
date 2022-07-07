@@ -13,6 +13,10 @@ const boardSchema = new mongoose.Schema(
       trim: true,
       maxLength: 10
     },
+    thumbnail: {
+      type: String,
+      require: true
+    },
     columnOrder: [
       {
         type: mongoose.Types.ObjectId,

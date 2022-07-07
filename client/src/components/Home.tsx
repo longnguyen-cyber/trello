@@ -1,13 +1,21 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { AiOutlineHome } from 'react-icons/ai'
 import { CgTemplate } from 'react-icons/cg'
 import { FaFlipboard } from 'react-icons/fa'
 import { FiSettings } from 'react-icons/fi'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
+import { refreshToken } from '../redux/actions/authAction'
+import { RootStore, TypedDispatch } from '../utils/types'
 import Navbar from './Navbar'
 
 const Home = () => {
-  const [user, setUser] = useState(true)
+  const dispatch = useDispatch<TypedDispatch>()
+
+  const { auth } = useSelector((state: RootStore) => state)
+  useEffect(() => {
+    dispatch(refreshToken())
+  }, [dispatch])
   const NotUser = () => {
     return (
       <div className="grid grid-cols-3 py-48 px-28">
@@ -34,7 +42,7 @@ const Home = () => {
   const User = () => {
     return (
       <div className="flex">
-        <aside className="w-64 mt-8 ml-8 " aria-label="Sidebar">
+        <aside className="w-64 mt-8 ml-8 min-w-max" aria-label="Sidebar">
           <div className="overflow-y-auto py-4 px-3 rounded">
             <ul className="space-y-2">
               <li>
@@ -84,8 +92,8 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar user={user} setUser={setUser} />
-      {user ? <User /> : <NotUser />}
+      <Navbar token={auth.access_token} />
+      {auth.access_token ? <User /> : <NotUser />}
     </div>
   )
 }
