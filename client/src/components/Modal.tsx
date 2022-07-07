@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
+import { BiPlus } from 'react-icons/bi'
 import { FcStackOfPhotos } from 'react-icons/fc'
-import { useDispatch, useSelector } from 'react-redux'
-import { createBoard } from '../redux/actions/boardAction'
-import {
-  FormSubmit,
-  InputChange,
-  RootStore,
-  TypedDispatch
-} from '../utils/types'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { FormSubmit, IBoardModal, InputChange, RootStore } from '../utils/types'
 import { Tooltip } from './Tooltip'
-
-export default function Modal() {
+interface IProps {
+  content?: string
+  callback: (body: IBoardModal, token: string) => void
+}
+export default function Modal({ content, callback }: IProps) {
+  const { id } = useParams()
   const [showModal, setShowModal] = React.useState(false)
   const [title, setTitle] = useState('')
   const [file, setFile] = useState<File>()
@@ -27,26 +27,41 @@ export default function Modal() {
     setTitle(e.target.value as string)
   }
 
-  const dispatch = useDispatch<TypedDispatch>()
   const { auth } = useSelector((state: RootStore) => state)
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
     if (!auth.access_token) return
+    if (!title) return
     const board = {
       title,
       thumbnail: file
     }
-    dispatch(createBoard(board, auth.access_token))
+    callback(board, auth.access_token)
+
+    setShowModal(false)
+    setFile(undefined)
+    setTitle('')
   }
 
+  const handleCancel = () => {
+    setShowModal(false)
+    setFile(undefined)
+    setTitle('')
+  }
   return (
     <>
       <button
-        className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className={`${
+          !id &&
+          'bg-blue-500 active:bg-blue-600 text-white font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg'
+        } text-sm outline-none focus:outline-none m-1 ease-linear transition-all duration-150 ${
+          id && 'w-full'
+        }`}
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Add board
+        {id && <BiPlus className="inline-block text-xl" />}
+        {id ? content : 'Add board'}
       </button>
       {showModal ? (
         <>
@@ -112,16 +127,15 @@ export default function Modal() {
                   <button
                     className="text-red-700 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={handleCancel}
                   >
                     Cancel
                   </button>
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="submit"
-                    // onClick={() => setShowModal(false)}
                   >
-                    Add board
+                    {id ? 'Add card' : 'Add board'}
                   </button>
                 </div>
               </form>

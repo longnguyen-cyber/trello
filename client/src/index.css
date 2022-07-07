@@ -4,9 +4,74 @@
 
 @layer components {
   .board {
-    @apply before:content-[""] before:bg-slate-600 before:absolute before:w-full before:h-40 before:opacity-50;
+    @apply before:content-[""] before:bg-slate-600 before:absolute before:w-full before:h-40 before:opacity-50 before:top-0 before:left-0;
   }
   .active {
     @apply text-white text-center py-3 px-0;
+  }
+}
+
+.boards::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+.boards::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+.boards::-webkit-scrollbar-thumb {
+  background-color: rgba(190, 190, 190, 0.261);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.boards .column {
+  min-width: 20rem !important;
+}
+.card-list::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+.card-list::-webkit-scrollbar:vertical {
+  width: 0.5rem;
+}
+
+.card-list::-webkit-scrollbar-thumb {
+  background-color: rgba(190, 190, 190, 0.569);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading svg {
+  font-size: 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  animation: text 1s ease-in-out infinite;
+}
+
+@keyframes text {
+  50% {
+    opacity: 0.1;
+  }
+}
+
+.loading polygon {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 1;
+  animation: dash 4s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite
+    alternate-reverse;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 234;
   }
 }

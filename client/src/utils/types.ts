@@ -41,6 +41,10 @@ export interface IBoardHome extends IBoard {
   thumbnail?: string
 }
 
+export interface ICard extends IBoard {
+  thumbnail?: string
+}
+
 export interface IAlert {
   loading?: boolean
   success?: string | string[]

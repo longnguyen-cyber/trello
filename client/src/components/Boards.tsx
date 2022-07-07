@@ -1,18 +1,24 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { RootStore } from '../utils/types'
+import { createBoard } from '../redux/actions/boardAction'
+import { IBoardModal, RootStore, TypedDispatch } from '../utils/types'
 import Board from './Board'
 import Modal from './Modal'
 
 const Boards = () => {
   let navigate = useNavigate()
   const { boards } = useSelector((state: RootStore) => state)
+  const dispatch = useDispatch<TypedDispatch>()
+
+  const handleCreateBoard = (body: IBoardModal, token: string) => {
+    dispatch(createBoard(body, token))
+  }
 
   return (
     <div className="mt-12 mx-12 flex-1">
       <div className="flex justify-between">
         <h2 className="text-2xl font-semibold mb-4">ALl Board</h2>
-        <Modal />
+        <Modal callback={handleCreateBoard} />
       </div>
       <div className="grid grid-cols-4 space-x-4">
         {boards.map((item) => (

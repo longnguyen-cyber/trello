@@ -9,11 +9,11 @@ const cardCtrl = {
       return res.status(400).json({ msg: 'Invalid Authentication' })
     const { boardID, columnID } = req.params
     try {
-      const { content } = req.body
+      const { title } = req.body
       const newCard = new Card({
         board: boardID,
         column: columnID,
-        content
+        title
       })
       await Column.findByIdAndUpdate(
         {
