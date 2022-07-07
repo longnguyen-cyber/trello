@@ -18,6 +18,7 @@ const Board = () => {
   return (
     <div>
       {board?.title} - {auth.user?.name}
+      hello
     </div>
   )
 }
