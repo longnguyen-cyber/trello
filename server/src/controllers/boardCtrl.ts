@@ -36,9 +36,12 @@ const boardCtrl = {
       return res.status(500).json({ msg: error.message })
     }
   },
-  getBoard: async (req: Request, res: Response) => {
+  getBoard: async (req: IReqAuth, res: Response) => {
+    if (!req.user)
+      return res.status(400).json({ msg: 'Invalid Authentication' })
     try {
       const boardDefault = await Board.findOne({ _id: req.params.id })
+
       const board = await Board.aggregate([
         {
           $match: {

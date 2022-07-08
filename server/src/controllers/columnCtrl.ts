@@ -9,17 +9,17 @@ const columnCtrl = {
   creatColumn: async (req: IReqAuth, res: Response) => {
     if (!req.user)
       return res.status(400).json({ msg: 'Invalid Authentication' })
-    const { id } = req.params
+    const { boardID } = req.params
     try {
       const { title } = req.body
       const newColumn = new Column({
-        board: id,
+        board: boardID,
         title
       })
 
       await Board.findByIdAndUpdate(
         {
-          _id: id
+          _id: boardID
         },
         {
           $push: {

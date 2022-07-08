@@ -32,6 +32,7 @@ export interface IBoard {
   _id?: string | number
   user?: string | IUser
   title: string
+  thumbnail: string | File
   columnOrder?: string[]
   columns?: IColumn[]
 }
@@ -44,20 +45,12 @@ export interface IColumn {
   cards?: ICard[]
 }
 
-export interface IBoardModal extends IBoard {
-  thumbnail?: string | File
-}
-
 export interface ICardModal extends IBoard {
-  thumbnail?: string | File
-}
-
-export interface IBoardHome extends IBoard {
-  thumbnail?: string
+  thumbnail: string | File
 }
 
 export interface ICard extends IBoard {
-  thumbnail?: string
+  thumbnail: string
 }
 
 export interface IAlert {

@@ -1,52 +1,58 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BiPlus } from 'react-icons/bi'
 import { FcStackOfPhotos } from 'react-icons/fc'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { FormSubmit, IBoardModal, InputChange, RootStore } from '../utils/types'
+import { FormSubmit, IBoard, InputChange, RootStore } from '../utils/types'
 import { Tooltip } from './Tooltip'
 interface IProps {
   content?: string
-  callback: (body: IBoardModal, token: string) => void
+  board?: IBoard
+  setBoard?: (board: IBoard) => void
+  callback: (board: IBoard, token: string) => void
 }
-export default function Modal({ content, callback }: IProps) {
+export default function Modal({ content, callback, board, setBoard }: IProps) {
   const { id } = useParams()
   const [showModal, setShowModal] = React.useState(false)
-  const [title, setTitle] = useState('')
-  const [file, setFile] = useState<File>()
   const handleChangeImg = (e: InputChange) => {
     const target = e.target as HTMLInputElement
     const files = target.files
+    if (!board || !setBoard) return
     if (files) {
       const file = files[0]
-      setFile(file)
+      if (!setBoard) return
+      setBoard({ ...board, thumbnail: file })
     }
   }
 
   const handleInputChange = (e: InputChange) => {
-    setTitle(e.target.value as string)
+    const { name, value } = e.target
+    if (!board || !setBoard) return
+    setBoard({ ...board, [name]: value })
   }
 
   const { auth } = useSelector((state: RootStore) => state)
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
+    if (!board || !setBoard) return
     if (!auth.access_token) return
-    if (!title) return
-    const board = {
-      title,
-      thumbnail: file
-    }
-    callback(board, auth.access_token)
+    callback({ ...board, title: board.title }, auth.access_token)
 
     setShowModal(false)
-    setFile(undefined)
-    setTitle('')
+    setBoard({
+      title: '',
+      thumbnail: ''
+    })
   }
 
   const handleCancel = () => {
     setShowModal(false)
-    setFile(undefined)
-    setTitle('')
+    if (!board || !setBoard) return
+
+    setBoard({
+      title: '',
+      thumbnail: ''
+    })
   }
   return (
     <>
@@ -81,9 +87,9 @@ export default function Modal({ content, callback }: IProps) {
                         type="text"
                         className="form-control block w-full px-4 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         placeholder="Add title"
-                        name="account"
+                        name="title"
                         autoComplete="username"
-                        value={title}
+                        value={board?.title}
                         onChange={handleInputChange}
                       />
                       <Tooltip message="choose image you like">
@@ -104,19 +110,21 @@ export default function Modal({ content, callback }: IProps) {
                     </div>
                   </div>
                   <div>
-                    {file && (
+                    {board?.thumbnail && (
                       <div className="relative board cursor-pointer before:h-96">
-                        <img
-                          src={URL.createObjectURL(file)}
-                          className="w-full h-96"
-                          alt="thumbnail"
-                          style={{ objectFit: 'cover' }}
-                        />
+                        {typeof board.thumbnail !== 'string' && (
+                          <img
+                            src={URL.createObjectURL(board.thumbnail)}
+                            className="w-full h-96"
+                            alt="thumbnail"
+                            style={{ objectFit: 'cover' }}
+                          />
+                        )}
                         <div
                           className="absolute top-2/4 left-2/4 text-white font-semibold text-2xl"
                           style={{ transform: 'translate(-50%,-50%)' }}
                         >
-                          <h3>{title}</h3>
+                          <h3>{board.title}</h3>
                         </div>
                       </div>
                     )}

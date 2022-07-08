@@ -23,7 +23,8 @@ function App() {
   useEffect(() => {
     if (!auth.access_token) return
     dispatch(getBoards(auth.access_token))
-  }, [dispatch, auth.access_token])
+  }, [auth.access_token, dispatch])
+
   return (
     <Router>
       <Alert />

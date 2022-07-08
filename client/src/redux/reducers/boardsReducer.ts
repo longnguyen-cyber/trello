@@ -1,10 +1,7 @@
 import { CREATE_BOARD, GET_BOARDS, IBoardType } from '../types/boardType'
-import { IBoard, IBoardHome } from './../../utils/types'
+import { IBoard } from './../../utils/types'
 
-const boardReducer = (
-  state: IBoard[] = [],
-  action: IBoardType
-): IBoardHome[] => {
+const boardsReducer = (state: IBoard[] = [], action: IBoardType): IBoard[] => {
   switch (action.type) {
     case GET_BOARDS:
       return action.payload
@@ -15,4 +12,4 @@ const boardReducer = (
   }
 }
 
-export default boardReducer
+export default boardsReducer

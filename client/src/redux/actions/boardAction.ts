@@ -7,7 +7,7 @@ import {
   IGetBoardsType
 } from '../types/boardType'
 import { getAPI, postAPI } from './../../utils/FetchData'
-import { IBoardModal } from './../../utils/types'
+import { IBoard } from './../../utils/types'
 import { ALERT, IAlertType } from './../types/alertType'
 export const getBoards =
   (token: string) =>
@@ -22,8 +22,9 @@ export const getBoards =
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } })
     }
   }
+
 export const createBoard =
-  (board: IBoardModal, token: string) =>
+  (board: IBoard, token: string) =>
   async (dispatch: Dispatch<IBoardType | IAlertType>) => {
     if (!token)
       return dispatch({

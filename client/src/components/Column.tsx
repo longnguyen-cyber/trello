@@ -1,27 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { createCard } from '../redux/actions/cardAction'
-import { IBoardModal, ICard, IColumn, TypedDispatch } from '../utils/types'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  IBoard,
+  ICard,
+  IColumn,
+  RootStore,
+  TypedDispatch
+} from '../utils/types'
 
-import _ from 'lodash'
-
-import Card from './Card'
-import Modal from './Modal'
 import { BiPlus } from 'react-icons/bi'
+import { useParams } from 'react-router-dom'
+import Card from './Card'
+import { createColumn } from '../redux/actions/columnAction'
+import Modal from './Modal'
 
 interface IProps {
   column: IColumn
 }
+//Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "board"
 
 const Column = ({ column }: IProps) => {
+  const { cards, auth } = useSelector((state: RootStore) => state)
+  const { id } = useParams()
   const dispatch = useDispatch<TypedDispatch>()
   const [toggleColumn, settoggleColumn] = useState(true)
   const [card, setCard] = useState<ICard>()
-  const addCard = (body: IBoardModal, token?: string) => {
-    dispatch(createCard(body))
+
+  const addCard = (body: IBoard, token?: string) => {
+    // dispatch(createCard(body))
   }
+
   const addColumn = () => {
     settoggleColumn(false)
+    if (!auth.access_token || !id) return
+    dispatch(createColumn('new column', id, auth.access_token))
     return <Modal content="Add a card" callback={addCard} />
   }
 
@@ -44,7 +56,8 @@ const Column = ({ column }: IProps) => {
           Add a column
         </div>
       ) : (
-        <Modal content="Add a card" callback={addCard} />
+        <h2>eh</h2>
+        // <Modal content="Add a card" callback={addCard} />
       )}
     </div>
   )
