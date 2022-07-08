@@ -1,25 +1,22 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getAPI } from '../utils/FetchData'
-import { IBoard, RootStore } from '../utils/types'
+import { IBoard } from '../utils/types'
 import { showErrMsg } from './altert/Alert'
 import Loading from './altert/Loading'
 import DisplayBoard from './DisplayBoard'
 
 const Board = () => {
-  const { auth } = useSelector((state: RootStore) => state)
-
   const { id } = useParams<string>()
   const [board, setBoard] = useState<IBoard>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   useEffect(() => {
-    if (!id || !auth.access_token) return
+    if (!id) return
 
     setLoading(true)
 
-    getAPI(`board/${id}`, auth.access_token)
+    getAPI(`board/${id}`)
       .then((res) => {
         setBoard(res.data)
         setLoading(false)
@@ -30,9 +27,7 @@ const Board = () => {
       })
 
     return () => setBoard(undefined)
-  }, [id, auth.access_token])
-
-  console.log(board)
+  }, [id])
 
   if (loading) <Loading />
 

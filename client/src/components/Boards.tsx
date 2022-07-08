@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { createBoard } from '../redux/actions/boardAction'
 import { IBoard, RootStore, TypedDispatch } from '../utils/types'
-import Board from './Board'
 import Modal from './Modal'
 
 const Boards = () => {
@@ -21,67 +20,7 @@ const Boards = () => {
     if (!board.thumbnail) return
     dispatch(createBoard(board, token))
   }
-  // const data = [
-  //   {
-  //     _id: '62c68a91caa35f0ac95ffe1a',
-  //     title: 'test board',
-  //     columnOrder:['1','2'],
-  //     columns: [
-  //       {
-  //         _id: '1',
-  //         board: '62c68a91caa35f0ac95ffe1a',
-  //         title: 'column 1',
-  //         cardOrder: ['1', '2'],
-  //         cards: [
-  //           {
-  //             _id: '1',
-  //             title: 'card1',
-  //             thumbnail: 'http://source.unsplash.com/random'
-  //           },
-  //           {
-  //             _id: '2',
-  //             title: 'card2'
-  //           },
-  //           {
-  //             _id: '3',
-  //             title: 'card3',
-  //             thumbnail: 'http://source.unsplash.com/random'
-  //           },
-  //           {
-  //             _id: '4',
-  //             title: 'card4'
-  //           }
-  //         ]
-  //       },
-  //       {
-  //         _id: '2',
-  //         board: '62c68a91caa35f0ac95ffe1a',
-  //         title: 'column 2',
-  //         cardOrder: ['3', '4'],
-  //         cards: [
-  //           {
-  //             _id: '3',
-  //             title: 'card1',
-  //             thumbnail: 'http://source.unsplash.com/random'
-  //           },
-  //           {
-  //             _id: '2',
-  //             title: 'card2'
-  //           },
-  //           {
-  //             _id: '4',
-  //             title: 'card3',
-  //             thumbnail: 'http://source.unsplash.com/random'
-  //           },
-  //           {
-  //             _id: '4',
-  //             title: 'card4'
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // ]
+
   return (
     <div className="mt-12 mx-12 flex-1">
       <div className="flex justify-between">
@@ -110,9 +49,9 @@ const Boards = () => {
             >
               <h3>{item.title}</h3>
             </div>
-            <div className="hidden">
+            {/* <div className="hidden">
               <Board />
-            </div>
+            </div> */}
           </div>
         ))}
         <Outlet />

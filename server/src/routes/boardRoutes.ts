@@ -7,7 +7,7 @@ router.post('/board', auth, boardCtrl.createBoard)
 router.get('/board', auth, boardCtrl.geaAllBoard)
 router
   .route('/board/:id')
-  .get(auth, boardCtrl.getBoard)
+  .get(boardCtrl.getBoard)
   .delete(auth, boardCtrl.deleteBoard)
   .patch(auth, boardCtrl.updateBoard)
 

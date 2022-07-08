@@ -16,11 +16,11 @@ const DisplayBoard = ({ board }: IProps) => {
   return (
     <div
       className="h-screen object-fit bg-no-repeat bg-cover w-full"
-      style={{ backgroundImage: `url(${board?.thumbnail})` }}
+      style={{ backgroundImage: `url(${board.thumbnail})` }}
     >
       <Navbar token={auth.access_token} />
       <div className="text-white text-center text-4xl py-2 relative">
-        {board?.title}
+        {board.title}
       </div>
       <div className="flex overflow-x-auto space-x-4 boards mx-8">
         {_.isEmpty(board.columns) ? (
@@ -33,7 +33,7 @@ const DisplayBoard = ({ board }: IProps) => {
               className="bg-white rounded py-2 column max-w-default mb-4"
               key={column._id}
             >
-              <Column column={column} />
+              {/* <Column column={column} /> */}
             </div>
           ))
         )}
