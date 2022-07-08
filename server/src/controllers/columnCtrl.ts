@@ -35,6 +35,18 @@ const columnCtrl = {
       return res.status(500).json({ msg: error.message })
     }
   },
+  getColumn: async (req: IReqAuth, res: Response) => {
+    if (!req.user)
+      return res.status(400).json({ msg: 'Invalid Authentication' })
+    const { id } = req.params
+    try {
+      const columns = await Column.find({ board: id })
+
+      res.status(200).json(columns)
+    } catch (error: any) {
+      return res.status(500).json({ msg: error.message })
+    }
+  },
   deleteColumn: async (req: IReqAuth, res: Response) => {
     if (!req.user)
       return res.status(400).json({ msg: 'Invalid Authentication' })

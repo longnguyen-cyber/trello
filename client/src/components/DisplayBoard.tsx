@@ -1,17 +1,18 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { IBoard, RootStore } from '../utils/types'
+import { IBoard, IColumn, RootStore } from '../utils/types'
 import Column from './Column'
 import Navbar from './Navbar'
 import _ from 'lodash'
 interface IProps {
+  columns: IColumn[]
   board: IBoard
 }
-const DisplayBoard = ({ board }: IProps) => {
+const DisplayBoard = ({ columns, board }: IProps) => {
   const { auth } = useSelector((state: RootStore) => state)
   const columnDefault = {
-    _id: '1',
-    board: '62c68a91caa35f0ac95ffe1a'
+    _id: 'default',
+    board: 'default'
   }
   return (
     <div
@@ -23,17 +24,17 @@ const DisplayBoard = ({ board }: IProps) => {
         {board.title}
       </div>
       <div className="flex overflow-x-auto space-x-4 boards mx-8">
-        {_.isEmpty(board.columns) ? (
+        {_.isEmpty(columns) ? (
           <div className="bg-white rounded py-2 column max-w-default mb-4">
             <Column column={columnDefault} />
           </div>
         ) : (
-          board.columns?.map((column) => (
+          columns?.map((column) => (
             <div
               className="bg-white rounded py-2 column max-w-default mb-4"
               key={column._id}
             >
-              {/* <Column column={column} /> */}
+              <Column column={column} />
             </div>
           ))
         )}

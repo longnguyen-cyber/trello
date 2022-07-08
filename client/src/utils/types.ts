@@ -34,15 +34,13 @@ export interface IBoard {
   title: string
   thumbnail: string | File
   columnOrder?: string[]
-  columns?: IColumn[]
 }
 
 export interface IColumn {
-  _id?: string | number
+  _id?: string
   board: string
   title?: string
   cardOrder?: string[]
-  cards?: ICard[]
 }
 
 export interface ICardModal extends IBoard {

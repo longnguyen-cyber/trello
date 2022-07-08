@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { createElement, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   IBoard,
@@ -10,14 +10,13 @@ import {
 
 import { BiPlus } from 'react-icons/bi'
 import { useParams } from 'react-router-dom'
-import Card from './Card'
 import { createColumn } from '../redux/actions/columnAction'
 import Modal from './Modal'
+import { createCard } from '../redux/actions/cardAction'
 
 interface IProps {
   column: IColumn
 }
-//Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "board"
 
 const Column = ({ column }: IProps) => {
   const { cards, auth } = useSelector((state: RootStore) => state)
@@ -26,14 +25,24 @@ const Column = ({ column }: IProps) => {
   const [toggleColumn, settoggleColumn] = useState(true)
   const [card, setCard] = useState<ICard>()
 
+  const NewColumnDefault = () => {
+    return (
+      <div onClick={addColumn} className="cursor-pointer">
+        <BiPlus className="inline-block text-xl" />
+        Add a column
+      </div>
+    )
+  }
+
   const addCard = (body: IBoard, token?: string) => {
-    // dispatch(createCard(body))
+    dispatch(createCard(body))
   }
 
   const addColumn = () => {
     settoggleColumn(false)
     if (!auth.access_token || !id) return
-    dispatch(createColumn('new column', id, auth.access_token))
+
+    // dispatch(createColumn('new column', id, auth.access_token))
     return <Modal content="Add a card" callback={addCard} />
   }
 
@@ -46,18 +55,15 @@ const Column = ({ column }: IProps) => {
         {!toggleColumn && !column.title ? 'new column' : column.title}
       </h4>
       <div className="overflow-y-auto max-h-[30rem] card-list">
-        {column?.cards?.map((item) => (
+        {/* {column?.cards?.map((item) => (
           <Card card={item} key={item._id} />
-        ))}
+        ))} */}
       </div>
       {!column.title && toggleColumn ? (
-        <div onClick={addColumn} className="cursor-pointer">
-          <BiPlus className="inline-block text-xl" />
-          Add a column
-        </div>
+        <NewColumnDefault />
       ) : (
-        <h2>eh</h2>
-        // <Modal content="Add a card" callback={addCard} />
+        // <h2>eh</h2>
+        <Modal content="Add a card" callback={addCard} />
       )}
     </div>
   )

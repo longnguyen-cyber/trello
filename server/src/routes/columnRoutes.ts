@@ -4,6 +4,7 @@ import auth from '../middlewares/auth'
 const router = express.Router()
 
 router.post('/board/:boardID', auth, columnCtrl.creatColumn)
+router.get('/board/column/:id', auth, columnCtrl.getColumn)
 
 router
   .route('/board/:boardID/:id')

@@ -15,6 +15,7 @@ export const getBoards =
     try {
       dispatch({ type: ALERT, payload: { loading: true } })
       const res = await getAPI('board', token)
+
       dispatch({ type: GET_BOARDS, payload: res.data })
 
       dispatch({ type: ALERT, payload: { loading: false } })
