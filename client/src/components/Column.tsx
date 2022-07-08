@@ -1,41 +1,51 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { IBoardModal, ICard, TypedDispatch } from '../utils/types'
+import { createCard } from '../redux/actions/cardAction'
+import { IBoardModal, ICard, IColumn, TypedDispatch } from '../utils/types'
+
+import _ from 'lodash'
+
 import Card from './Card'
 import Modal from './Modal'
-const Column = () => {
+import { BiPlus } from 'react-icons/bi'
+
+interface IProps {
+  column: IColumn
+}
+
+const Column = ({ column }: IProps) => {
   const dispatch = useDispatch<TypedDispatch>()
+  const [toggleColumn, settoggleColumn] = useState(true)
   const [card, setCard] = useState<ICard>()
-  const data = [
-    {
-      _id: '1',
-      title: 'card1',
-      thumbnail: 'http://source.unsplash.com/random'
-    },
-    {
-      _id: '2',
-      title: 'card2'
-    },
-    {
-      _id: '3',
-      title: 'card3',
-      thumbnail: 'http://source.unsplash.com/random'
-    },
-    {
-      _id: '4',
-      title: 'card4'
-    }
-  ]
-  const addCard = (body: IBoardModal, token?: string) => {}
+  const addCard = (body: IBoardModal, token?: string) => {
+    dispatch(createCard(body))
+  }
+  const addColumn = () => {
+    settoggleColumn(false)
+    return <Modal content="Add a card" callback={addCard} />
+  }
+
+  useEffect(() => {
+    if (column.title) settoggleColumn(false)
+  }, [column.title])
   return (
-    <div className="text-center pl-1">
-      <h4>Column Title</h4>
+    <div className="text-center pl-1 board-column">
+      <h4 className={`${!toggleColumn && !column.title && 'pb-2'}`}>
+        {!toggleColumn && !column.title ? 'new column' : column.title}
+      </h4>
       <div className="overflow-y-auto max-h-[30rem] card-list">
-        {data.map((item) => (
-          <Card card={item} />
+        {column?.cards?.map((item) => (
+          <Card card={item} key={item._id} />
         ))}
       </div>
-      <Modal content="Add a Column" callback={addCard} />
+      {!column.title && toggleColumn ? (
+        <div onClick={addColumn} className="cursor-pointer">
+          <BiPlus className="inline-block text-xl" />
+          Add a column
+        </div>
+      ) : (
+        <Modal content="Add a card" callback={addCard} />
+      )}
     </div>
   )
 }

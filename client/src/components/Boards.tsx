@@ -13,7 +13,67 @@ const Boards = () => {
   const handleCreateBoard = (body: IBoardModal, token: string) => {
     dispatch(createBoard(body, token))
   }
-
+  // const data = [
+  //   {
+  //     _id: '62c68a91caa35f0ac95ffe1a',
+  //     title: 'test board',
+  //     columnOrder:['1','2'],
+  //     columns: [
+  //       {
+  //         _id: '1',
+  //         board: '62c68a91caa35f0ac95ffe1a',
+  //         title: 'column 1',
+  //         cardOrder: ['1', '2'],
+  //         cards: [
+  //           {
+  //             _id: '1',
+  //             title: 'card1',
+  //             thumbnail: 'http://source.unsplash.com/random'
+  //           },
+  //           {
+  //             _id: '2',
+  //             title: 'card2'
+  //           },
+  //           {
+  //             _id: '3',
+  //             title: 'card3',
+  //             thumbnail: 'http://source.unsplash.com/random'
+  //           },
+  //           {
+  //             _id: '4',
+  //             title: 'card4'
+  //           }
+  //         ]
+  //       },
+  //       {
+  //         _id: '2',
+  //         board: '62c68a91caa35f0ac95ffe1a',
+  //         title: 'column 2',
+  //         cardOrder: ['3', '4'],
+  //         cards: [
+  //           {
+  //             _id: '3',
+  //             title: 'card1',
+  //             thumbnail: 'http://source.unsplash.com/random'
+  //           },
+  //           {
+  //             _id: '2',
+  //             title: 'card2'
+  //           },
+  //           {
+  //             _id: '4',
+  //             title: 'card3',
+  //             thumbnail: 'http://source.unsplash.com/random'
+  //           },
+  //           {
+  //             _id: '4',
+  //             title: 'card4'
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // ]
   return (
     <div className="mt-12 mx-12 flex-1">
       <div className="flex justify-between">

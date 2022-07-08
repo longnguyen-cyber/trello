@@ -1,7 +1,7 @@
 import { CREATE_BOARD, GET_BOARDS, IBoardType } from '../types/boardType'
 import { IBoard, IBoardHome } from './../../utils/types'
 
-const authReducer = (
+const boardReducer = (
   state: IBoard[] = [],
   action: IBoardType
 ): IBoardHome[] => {
@@ -15,4 +15,4 @@ const authReducer = (
   }
 }
 
-export default authReducer
+export default boardReducer

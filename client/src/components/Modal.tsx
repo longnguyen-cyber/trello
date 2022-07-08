@@ -54,7 +54,7 @@ export default function Modal({ content, callback }: IProps) {
         className={`${
           !id &&
           'bg-blue-500 active:bg-blue-600 text-white font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg'
-        } text-sm outline-none focus:outline-none m-1 ease-linear transition-all duration-150 ${
+        } text-sm outline-none focus:outline-none m-1 ease-linear transition-all duration-150 text-center ${
           id && 'w-full'
         }`}
         type="button"
