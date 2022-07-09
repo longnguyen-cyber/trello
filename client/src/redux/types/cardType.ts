@@ -1,16 +1,16 @@
-import { ICardModal } from '../../utils/types'
+import { ICard, IModal } from '../../utils/types'
 
 export const CREATE_CARD = 'CREATE_CARD'
 export const GET_CARDS = 'GET_CARDS'
 
-export interface IGetBoardsType {
+export interface IGetCardsType {
   type: typeof GET_CARDS
-  payload: ICardModal[]
+  payload: ICard[]
 }
 
 export interface ICreateCardType {
   type: typeof CREATE_CARD
-  payload: ICardModal
+  payload: IModal
 }
 
-export type ICardType = ICreateCardType | IGetBoardsType
+export type ICardType = ICreateCardType | IGetCardsType

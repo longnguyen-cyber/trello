@@ -12,7 +12,6 @@ export const login =
       dispatch({ type: ALERT, payload: { loading: true } })
 
       const res = await postAPI('login', userLogin)
-      console.log(res)
       dispatch({
         type: AUTH,
         payload: res.data

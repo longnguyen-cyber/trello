@@ -1,7 +1,7 @@
-import { ICard, ICardModal } from '../../utils/types'
+import { ICard } from '../../utils/types'
 import { CREATE_CARD, GET_CARDS, ICardType } from '../types/cardType'
 
-const cardReducer = (state: ICard[] = [], action: ICardType): ICardModal[] => {
+const cardReducer = (state: ICard[] = [], action: ICardType): ICard[] => {
   switch (action.type) {
     case GET_CARDS:
       return action.payload

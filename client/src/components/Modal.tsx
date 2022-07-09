@@ -3,43 +3,43 @@ import { BiPlus } from 'react-icons/bi'
 import { FcStackOfPhotos } from 'react-icons/fc'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { FormSubmit, IBoard, InputChange, RootStore } from '../utils/types'
+import { FormSubmit, IModal, InputChange, RootStore } from '../utils/types'
 import { Tooltip } from './Tooltip'
 interface IProps {
   content?: string
-  board?: IBoard
-  setBoard?: (board: IBoard) => void
-  callback: (board: IBoard, token: string) => void
+  body?: IModal
+  setBody?: (body: IModal) => void
+  callback: (body: IModal, token: string) => void
 }
-export default function Modal({ content, callback, board, setBoard }: IProps) {
+export default function Modal({ content, callback, body, setBody }: IProps) {
   const { id } = useParams()
   const [showModal, setShowModal] = React.useState(false)
   const handleChangeImg = (e: InputChange) => {
     const target = e.target as HTMLInputElement
     const files = target.files
-    if (!board || !setBoard) return
+    if (!body || !setBody) return
     if (files) {
       const file = files[0]
-      if (!setBoard) return
-      setBoard({ ...board, thumbnail: file })
+      if (!setBody) return
+      setBody({ ...body, thumbnail: file })
     }
   }
 
   const handleInputChange = (e: InputChange) => {
     const { name, value } = e.target
-    if (!board || !setBoard) return
-    setBoard({ ...board, [name]: value })
+    if (!body || !setBody) return
+    setBody({ ...body, [name]: value })
   }
 
   const { auth } = useSelector((state: RootStore) => state)
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
-    if (!board || !setBoard) return
+    if (!body || !setBody) return
     if (!auth.access_token) return
-    callback({ ...board, title: board.title }, auth.access_token)
+    callback({ ...body, title: body.title }, auth.access_token)
 
     setShowModal(false)
-    setBoard({
+    setBody({
       title: '',
       thumbnail: ''
     })
@@ -47,9 +47,9 @@ export default function Modal({ content, callback, board, setBoard }: IProps) {
 
   const handleCancel = () => {
     setShowModal(false)
-    if (!board || !setBoard) return
+    if (!body || !setBody) return
 
-    setBoard({
+    setBody({
       title: '',
       thumbnail: ''
     })
@@ -89,7 +89,7 @@ export default function Modal({ content, callback, board, setBoard }: IProps) {
                         placeholder="Add title"
                         name="title"
                         autoComplete="username"
-                        value={board?.title}
+                        value={body?.title}
                         onChange={handleInputChange}
                       />
                       <Tooltip message="choose image you like">
@@ -110,11 +110,11 @@ export default function Modal({ content, callback, board, setBoard }: IProps) {
                     </div>
                   </div>
                   <div>
-                    {board?.thumbnail && (
+                    {body?.thumbnail && (
                       <div className="relative board cursor-pointer before:h-96">
-                        {typeof board.thumbnail !== 'string' && (
+                        {typeof body.thumbnail !== 'string' && (
                           <img
-                            src={URL.createObjectURL(board.thumbnail)}
+                            src={URL.createObjectURL(body.thumbnail)}
                             className="w-full h-96"
                             alt="thumbnail"
                             style={{ objectFit: 'cover' }}
@@ -124,7 +124,7 @@ export default function Modal({ content, callback, board, setBoard }: IProps) {
                           className="absolute top-2/4 left-2/4 text-white font-semibold text-2xl"
                           style={{ transform: 'translate(-50%,-50%)' }}
                         >
-                          <h3>{board.title}</h3>
+                          <h3>{body.title}</h3>
                         </div>
                       </div>
                     )}

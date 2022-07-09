@@ -10,6 +10,7 @@ export const createColumn =
     try {
       dispatch({ type: ALERT, payload: { loading: true } })
       const res = await postAPI(`board/${boardID}`, { title }, token)
+
       dispatch({ type: CREATE_COLUMN, payload: res.data })
 
       dispatch({ type: ALERT, payload: { success: 'create successfully!' } })

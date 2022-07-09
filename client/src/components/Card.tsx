@@ -7,7 +7,7 @@ const Card = ({ card }: IProps) => {
   return (
     <div className="bg-gray-200 rounded-md cursor-pointer hover:bg-gray-400 my-4 last:mt-4 last:mb-0">
       <h3 className="py-2">{card.title}</h3>
-      {card.thumbnail && (
+      {typeof card.thumbnail === 'string' && (
         <img
           src={card.thumbnail}
           alt=""
