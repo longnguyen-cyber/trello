@@ -68,6 +68,15 @@ const Home = () => {
               </li>
               <li>
                 <Link
+                  to="dashboards"
+                  className="flex items-center p-4 text-base font-normal rounded-lg bg-gray-200 hover:bg-gray-400 hover:text-white"
+                >
+                  <CgTemplate />
+                  <span className="ml-3 font-semibold">Dashboards</span>
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="settings"
                   className="flex items-center p-4 text-base font-normal rounded-lg bg-gray-200 hover:bg-gray-400 hover:text-white"
                 >
