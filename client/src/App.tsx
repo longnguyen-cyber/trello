@@ -5,7 +5,6 @@ import Active from './components/Active'
 import { Alert } from './components/altert/Alert'
 import Board from './components/Board'
 import Boards from './components/Boards'
-import Dashboard from './components/Dashboard'
 import Home from './components/Home'
 import HomePage from './components/HomePage'
 import Login from './components/Login'
@@ -35,7 +34,6 @@ function App() {
           <Route path="board" element={<Boards />} />
           <Route path="templates" element={<Templates />} />
           <Route path="settings" element={<Settings />} />
-          <Route path="dashboards" element={<Dashboard />} />
         </Route>
         <Route path="/board/:id" element={<Board />} />
         <Route path="login" element={<Login />} />

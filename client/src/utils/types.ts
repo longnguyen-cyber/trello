@@ -60,3 +60,18 @@ export interface IAlert {
   success?: string | string[]
   errors?: string | string[]
 }
+
+export interface IImg {
+  id: string
+  height: number
+  width: number
+  urls: {
+    full: string
+    raw: string
+    regular: string
+    small: string
+    small_s3: string
+    thumb: string
+  }
+  description: string
+}

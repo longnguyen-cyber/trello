@@ -1,8 +1,16 @@
-import { GET_COLUMNS, IGetColumnsType } from './../types/columnType'
 import { Dispatch } from 'react'
-import { getAPI, postAPI } from '../../utils/FetchData'
+import { deleteAPI, getAPI, patchAPI, postAPI } from '../../utils/FetchData'
+import { IColumn } from '../../utils/types'
 import { CREATE_COLUMN, IColumnType } from '../types/columnType'
 import { ALERT, IAlertType } from './../types/alertType'
+import {
+  DELETE_COLUMN,
+  GET_COLUMNS,
+  IDeleteColumnType,
+  IGetColumnsType,
+  IUpdateColumnType,
+  UPDATE_COLUMN
+} from './../types/columnType'
 
 export const createColumn =
   (title: string, boardID: string, token: string) =>
@@ -27,6 +35,48 @@ export const getColumns =
       dispatch({ type: GET_COLUMNS, payload: res.data })
 
       dispatch({ type: ALERT, payload: { loading: false } })
+    } catch (error: any) {
+      dispatch({ type: ALERT, payload: { errors: error.response.data.msg } })
+    }
+  }
+
+export const deleteColumn =
+  (column: IColumn, token: string) =>
+  async (dispatch: Dispatch<IDeleteColumnType | IAlertType>) => {
+    if (!token)
+      return dispatch({
+        type: ALERT,
+        payload: { errors: 'You are not logged!' }
+      })
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } })
+
+      dispatch({
+        type: DELETE_COLUMN,
+        payload: column
+      })
+      await deleteAPI(`board/${column.board}/${column._id}`, token)
+
+      dispatch({ type: ALERT, payload: { success: 'Delete successfully!' } })
+    } catch (error: any) {
+      dispatch({ type: ALERT, payload: { errors: error.response.data.msg } })
+    }
+  }
+
+export const updateColumn =
+  (column: IColumn, token: string) =>
+  async (dispatch: Dispatch<IUpdateColumnType | IAlertType>) => {
+    if (!token)
+      return dispatch({
+        type: ALERT,
+        payload: { errors: 'You are not logged!' }
+      })
+    try {
+      await patchAPI(`board/${column.board}/${column._id}`, column, token)
+      dispatch({
+        type: UPDATE_COLUMN,
+        payload: column
+      })
     } catch (error: any) {
       dispatch({ type: ALERT, payload: { errors: error.response.data.msg } })
     }

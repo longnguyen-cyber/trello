@@ -47,7 +47,9 @@ const Board = () => {
   return (
     <div>
       {error && showErrMsg(error)}
-      {board && <DisplayBoard columns={columns} board={board} />}
+      {board && (
+        <DisplayBoard columns={columns} board={board} setBoard={setBoard} />
+      )}
     </div>
   )
 }
