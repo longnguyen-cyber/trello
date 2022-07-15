@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from 'react'
+import { ChangeEvent, FormEvent, MouseEventHandler } from 'react'
 import { AnyAction } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import rootReducer from '../redux/reducers'
@@ -6,6 +6,8 @@ import rootReducer from '../redux/reducers'
 export type RootStore = ReturnType<typeof rootReducer>
 
 export type TypedDispatch = ThunkDispatch<RootStore, any, AnyAction>
+
+export type Handler = MouseEventHandler<HTMLHeadingElement>
 
 export type FormSubmit = FormEvent<HTMLFormElement>
 export type InputChange = ChangeEvent<
@@ -28,17 +30,29 @@ export interface IUser extends IUserLogin {
   updatedAt: string
   createdAt: string
 }
-export interface IBoard {
-  _id?: string | number
-  user?: string | IUser
-  title: string
-}
 
-export interface IBoardModal extends IBoard {
+export interface IModal {
+  title: string
   thumbnail?: string | File
 }
-export interface IBoardHome extends IBoard {
-  thumbnail?: string
+
+export interface IBoard extends IModal {
+  _id?: string | number
+  user?: string | IUser
+  columnOrder?: string[]
+}
+
+export interface IColumn {
+  _id?: string
+  board: string
+  title?: string
+  cardOrder?: string[]
+}
+
+export interface ICard extends IModal {
+  _id?: string
+  column?: string
+  board?: string
 }
 
 export interface IAlert {

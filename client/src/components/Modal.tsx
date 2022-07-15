@@ -1,52 +1,73 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { BiPlus } from 'react-icons/bi'
 import { FcStackOfPhotos } from 'react-icons/fc'
-import { useDispatch, useSelector } from 'react-redux'
-import { createBoard } from '../redux/actions/boardAction'
-import {
-  FormSubmit,
-  InputChange,
-  RootStore,
-  TypedDispatch
-} from '../utils/types'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { FormSubmit, IModal, InputChange, RootStore } from '../utils/types'
 import { Tooltip } from './Tooltip'
-
-export default function Modal() {
+interface IProps {
+  content?: string
+  body?: IModal
+  setBody?: (body: IModal) => void
+  callback: (body: IModal, token: string) => void
+}
+export default function Modal({ content, callback, body, setBody }: IProps) {
+  const { id } = useParams()
   const [showModal, setShowModal] = React.useState(false)
-  const [title, setTitle] = useState('')
-  const [file, setFile] = useState<File>()
   const handleChangeImg = (e: InputChange) => {
     const target = e.target as HTMLInputElement
     const files = target.files
+    if (!body || !setBody) return
     if (files) {
       const file = files[0]
-      setFile(file)
+      if (!setBody) return
+      setBody({ ...body, thumbnail: file })
     }
   }
 
   const handleInputChange = (e: InputChange) => {
-    setTitle(e.target.value as string)
+    const { name, value } = e.target
+    if (!body || !setBody) return
+    setBody({ ...body, [name]: value })
   }
 
-  const dispatch = useDispatch<TypedDispatch>()
   const { auth } = useSelector((state: RootStore) => state)
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
+    if (!body || !setBody) return
     if (!auth.access_token) return
-    const board = {
-      title,
-      thumbnail: file
-    }
-    dispatch(createBoard(board, auth.access_token))
+    callback({ ...body, title: body.title }, auth.access_token)
+
+    setShowModal(false)
+    setBody({
+      title: '',
+      thumbnail: ''
+    })
   }
 
+  const handleCancel = () => {
+    setShowModal(false)
+    if (!body || !setBody) return
+
+    setBody({
+      title: '',
+      thumbnail: ''
+    })
+  }
   return (
     <>
       <button
-        className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className={`${
+          !id &&
+          'bg-blue-500 active:bg-blue-600 text-white font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg'
+        } text-sm outline-none focus:outline-none m-1 ease-linear transition-all duration-150 text-center ${
+          id && 'w-full'
+        }`}
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Add board
+        {id && <BiPlus className="inline-block text-xl" />}
+        {id ? content : 'Add board'}
       </button>
       {showModal ? (
         <>
@@ -66,9 +87,9 @@ export default function Modal() {
                         type="text"
                         className="form-control block w-full px-4 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         placeholder="Add title"
-                        name="account"
+                        name="title"
                         autoComplete="username"
-                        value={title}
+                        value={body?.title}
                         onChange={handleInputChange}
                       />
                       <Tooltip message="choose image you like">
@@ -89,19 +110,21 @@ export default function Modal() {
                     </div>
                   </div>
                   <div>
-                    {file && (
+                    {body?.thumbnail && (
                       <div className="relative board cursor-pointer before:h-96">
-                        <img
-                          src={URL.createObjectURL(file)}
-                          className="w-full h-96"
-                          alt="thumbnail"
-                          style={{ objectFit: 'cover' }}
-                        />
+                        {typeof body.thumbnail !== 'string' && (
+                          <img
+                            src={URL.createObjectURL(body.thumbnail)}
+                            className="w-full h-96"
+                            alt="thumbnail"
+                            style={{ objectFit: 'cover' }}
+                          />
+                        )}
                         <div
                           className="absolute top-2/4 left-2/4 text-white font-semibold text-2xl"
                           style={{ transform: 'translate(-50%,-50%)' }}
                         >
-                          <h3>{title}</h3>
+                          <h3>{body.title}</h3>
                         </div>
                       </div>
                     )}
@@ -112,16 +135,15 @@ export default function Modal() {
                   <button
                     className="text-red-700 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={handleCancel}
                   >
                     Cancel
                   </button>
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="submit"
-                    // onClick={() => setShowModal(false)}
                   >
-                    Add board
+                    {id ? 'Add card' : 'Add board'}
                   </button>
                 </div>
               </form>

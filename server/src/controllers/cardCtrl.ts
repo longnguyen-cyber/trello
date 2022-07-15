@@ -9,11 +9,13 @@ const cardCtrl = {
       return res.status(400).json({ msg: 'Invalid Authentication' })
     const { boardID, columnID } = req.params
     try {
-      const { content } = req.body
+      const { user } = req.body
+
       const newCard = new Card({
+        ...req.body,
         board: boardID,
         column: columnID,
-        content
+        user: req.user._id
       })
       await Column.findByIdAndUpdate(
         {
@@ -31,6 +33,7 @@ const cardCtrl = {
       return res.status(500).json({ msg: error.message })
     }
   },
+
   deleteCard: async (req: IReqAuth, res: Response) => {
     if (!req.user)
       return res.status(400).json({ msg: 'Invalid Authentication' })
@@ -71,6 +74,17 @@ const cardCtrl = {
       res.json({ msg: 'Update success', card })
 
       return res.status(200).json({ msg: 'Update successfully' })
+    } catch (error: any) {
+      return res.status(500).json({ msg: error.message })
+    }
+  },
+  getCard: async (req: IReqAuth, res: Response) => {
+    if (!req.user)
+      return res.status(400).json({ msg: 'Invalid Authentication' })
+    const { boardID } = req.params
+    try {
+      const cards = await Card.find({ board: boardID })
+      res.status(200).json(cards)
     } catch (error: any) {
       return res.status(500).json({ msg: error.message })
     }

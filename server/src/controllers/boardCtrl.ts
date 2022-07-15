@@ -39,6 +39,7 @@ const boardCtrl = {
   getBoard: async (req: Request, res: Response) => {
     try {
       const boardDefault = await Board.findOne({ _id: req.params.id })
+
       const board = await Board.aggregate([
         {
           $match: {
@@ -65,8 +66,12 @@ const boardCtrl = {
           }
         }
       ])
-      if (board.length > 0) return res.json(board)
-      else return res.json(boardDefault)
+
+      if (!board) return res.status(400).json({ msg: 'Board does not exists' })
+
+      // if (board.length > 0) return res.json(board)
+      // else
+      return res.json(boardDefault)
     } catch (error: any) {
       return res.status(500).json({ msg: error.message })
     }

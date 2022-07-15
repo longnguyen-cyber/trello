@@ -5,6 +5,8 @@ const router = express.Router()
 
 router.post('/board/:boardID/:columnID', auth, cardCtrl.creatCard)
 
+router.get('/board/:boardID/card', auth, cardCtrl.getCard)
+
 router
   .route('/board/:boardID/:columnID/:id')
   .delete(auth, cardCtrl.deleteCard)

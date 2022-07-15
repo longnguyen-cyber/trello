@@ -27,6 +27,7 @@ export interface IColumn extends Document {
 export interface IBoard extends Document {
   user: string
   title: string
+  thumbnail: string
   columnOrder: IColumn[]
 }
 

@@ -1,21 +1,15 @@
-import { useEffect } from 'react'
 import { AiOutlineHome } from 'react-icons/ai'
 import { CgTemplate } from 'react-icons/cg'
 import { FaFlipboard } from 'react-icons/fa'
 import { FiSettings } from 'react-icons/fi'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
-import { refreshToken } from '../redux/actions/authAction'
-import { RootStore, TypedDispatch } from '../utils/types'
+import { RootStore } from '../utils/types'
 import Navbar from './Navbar'
 
 const Home = () => {
-  const dispatch = useDispatch<TypedDispatch>()
-
   const { auth } = useSelector((state: RootStore) => state)
-  useEffect(() => {
-    dispatch(refreshToken())
-  }, [dispatch])
+
   const NotUser = () => {
     return (
       <div className="grid grid-cols-3 py-48 px-28">

@@ -5,12 +5,16 @@ const cardSchema = new mongoose.Schema(
   {
     board: mongoose.Types.ObjectId,
     column: mongoose.Types.ObjectId,
-    content: {
+    title: {
       type: String,
-      require: [true, 'Please add your content card'],
+      require: [true, 'Please add your title card'],
       trim: true,
       minLength: 10,
       maxLength: 20
+    },
+    thumbnail: {
+      type: String,
+      require: true
     }
   },
   {
