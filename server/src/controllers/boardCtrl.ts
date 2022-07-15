@@ -69,8 +69,6 @@ const boardCtrl = {
 
       if (!board) return res.status(400).json({ msg: 'Board does not exists' })
 
-      // if (board.length > 0) return res.json(board)
-      // else
       return res.json(boardDefault)
     } catch (error: any) {
       return res.status(500).json({ msg: error.message })
@@ -108,13 +106,14 @@ const boardCtrl = {
       return res.status(400).json({ msg: 'Invalid Authentication' })
     try {
       const board = await Board.findByIdAndUpdate(
-        { _id: req.params.id, user: req.user._id },
+        {
+          _id: req.params.id,
+          user: req.user._id
+        },
         req.body
       )
 
       if (!board) return res.status(400).json({ msg: 'Invalid Authentication' })
-
-      res.json({ msg: 'Update success', board })
 
       return res.status(200).json({ msg: 'Update successfully' })
     } catch (error: any) {

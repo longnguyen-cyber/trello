@@ -66,6 +66,7 @@ const Home = () => {
                   <span className="ml-3 font-semibold">Templates</span>
                 </Link>
               </li>
+
               <li>
                 <Link
                   to="settings"

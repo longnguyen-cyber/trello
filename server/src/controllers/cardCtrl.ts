@@ -71,8 +71,6 @@ const cardCtrl = {
 
       if (!card) return res.status(400).json({ msg: 'Invalid Authentication' })
 
-      res.json({ msg: 'Update success', card })
-
       return res.status(200).json({ msg: 'Update successfully' })
     } catch (error: any) {
       return res.status(500).json({ msg: error.message })

@@ -84,14 +84,12 @@ const columnCtrl = {
       return res.status(400).json({ msg: 'Invalid Authentication' })
     try {
       const column = await Column.findByIdAndUpdate(
-        { _id: req.params.id },
+        { _id: req.params.id, user: req.user._id },
         req.body
       )
 
       if (!column)
         return res.status(400).json({ msg: 'Invalid Authentication' })
-
-      res.json({ msg: 'Update success', column })
 
       return res.status(200).json({ msg: 'Update successfully' })
     } catch (error: any) {

@@ -1,5 +1,3 @@
-import React from 'react'
-import { BiPlus } from 'react-icons/bi'
 import { FcStackOfPhotos } from 'react-icons/fc'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -7,13 +5,25 @@ import { FormSubmit, IModal, InputChange, RootStore } from '../utils/types'
 import { Tooltip } from './Tooltip'
 interface IProps {
   content?: string
+  showModal: boolean
+  setShowModal: (showModal: boolean) => void
   body?: IModal
   setBody?: (body: IModal) => void
+  board?: string
+  column?: string
   callback: (body: IModal, token: string) => void
 }
-export default function Modal({ content, callback, body, setBody }: IProps) {
+export default function Modal({
+  content,
+  callback,
+  body,
+  setBody,
+  showModal,
+  setShowModal,
+  board,
+  column
+}: IProps) {
   const { id } = useParams()
-  const [showModal, setShowModal] = React.useState(false)
   const handleChangeImg = (e: InputChange) => {
     const target = e.target as HTMLInputElement
     const files = target.files
@@ -38,7 +48,7 @@ export default function Modal({ content, callback, body, setBody }: IProps) {
     if (!auth.access_token) return
     callback({ ...body, title: body.title }, auth.access_token)
 
-    setShowModal(false)
+    setShowModal(!showModal)
     setBody({
       title: '',
       thumbnail: ''
@@ -46,7 +56,7 @@ export default function Modal({ content, callback, body, setBody }: IProps) {
   }
 
   const handleCancel = () => {
-    setShowModal(false)
+    setShowModal(!showModal)
     if (!body || !setBody) return
 
     setBody({
@@ -54,21 +64,9 @@ export default function Modal({ content, callback, body, setBody }: IProps) {
       thumbnail: ''
     })
   }
+
   return (
     <>
-      <button
-        className={`${
-          !id &&
-          'bg-blue-500 active:bg-blue-600 text-white font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg'
-        } text-sm outline-none focus:outline-none m-1 ease-linear transition-all duration-150 text-center ${
-          id && 'w-full'
-        }`}
-        type="button"
-        onClick={() => setShowModal(true)}
-      >
-        {id && <BiPlus className="inline-block text-xl" />}
-        {id ? content : 'Add board'}
-      </button>
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
@@ -111,15 +109,21 @@ export default function Modal({ content, callback, body, setBody }: IProps) {
                   </div>
                   <div>
                     {body?.thumbnail && (
-                      <div className="relative board cursor-pointer before:h-96">
-                        {typeof body.thumbnail !== 'string' && (
-                          <img
-                            src={URL.createObjectURL(body.thumbnail)}
-                            className="w-full h-96"
-                            alt="thumbnail"
-                            style={{ objectFit: 'cover' }}
-                          />
-                        )}
+                      <div
+                        className="relative board
+                        } cursor-pointer before:h-96"
+                      >
+                        <img
+                          src={
+                            typeof body.thumbnail !== 'string'
+                              ? URL.createObjectURL(body.thumbnail)
+                              : body.thumbnail
+                          }
+                          className="w-full h-96"
+                          alt="thumbnail"
+                          style={{ objectFit: 'cover' }}
+                        />
+
                         <div
                           className="absolute top-2/4 left-2/4 text-white font-semibold text-2xl"
                           style={{ transform: 'translate(-50%,-50%)' }}
@@ -143,7 +147,11 @@ export default function Modal({ content, callback, body, setBody }: IProps) {
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="submit"
                   >
-                    {id ? 'Add card' : 'Add board'}
+                    {id
+                      ? board && column
+                        ? 'Update card'
+                        : 'Add card'
+                      : 'Add board'}
                   </button>
                 </div>
               </form>
