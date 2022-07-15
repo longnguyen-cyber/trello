@@ -83,13 +83,28 @@ export default function Modal({
                     <div className="my-4 flex space-x-2 items-center">
                       <input
                         type="text"
-                        className="form-control block w-full px-4 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        className={`form-control block w-full px-4 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none ${
+                          body &&
+                          (body.title.length < 10 || body.title.length > 20)
+                            ? 'border-red-600'
+                            : 'border-green-600'
+                        }`}
                         placeholder="Add title"
                         name="title"
                         autoComplete="username"
                         value={body?.title}
                         onChange={handleInputChange}
                       />
+                      <h3
+                        className={`font-semibold ${
+                          body &&
+                          (body.title.length < 10 || body.title.length > 20)
+                            ? 'text-red-600'
+                            : 'text-green-600'
+                        }`}
+                      >
+                        {body?.title.length}/10
+                      </h3>
                       <Tooltip message="choose image you like">
                         <label htmlFor="file" className="cursor-pointer">
                           <FcStackOfPhotos className="w-6 h-6" />
